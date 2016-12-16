@@ -1,0 +1,13 @@
+server {
+	listen 1.1.1.1:81;
+	server_name linuxde;
+	keeep_alive_timeout 70;
+	
+
+
+	location /deb/ {
+		
+	}
+	location /rpm/ {
+	
+	}

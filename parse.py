@@ -1,10 +1,9 @@
+#!/usr/bin/python
 import urllib
 from bs4 import  BeautifulSoup
 import re
 import pycurl
 import cStringIO
-
-
 
 
 base_url = 'https://help.mail.ru/cloud_web/app/linux'
@@ -13,6 +12,7 @@ base_url = 'https://help.mail.ru/cloud_web/app/linux'
 def get_html(url):
     response = urllib.urlopen(url)
     return response.read()
+
 # parsing pure html and get all href links
 def parse(html):
     soup = BeautifulSoup(html, 'html.parser')
@@ -46,12 +46,57 @@ def get_headers_link(links_lists):
         last_lst.append(header)
     return last_lst
 
+def last_pars_headers(lst):
+    link_pattern = re.compile('https:\/\/linuxdesktopcloud\.mail\.ru.*deb')
+    lst_deb = []
+    lst_rpm = []
+    for item in lst:
+        if link_pattern.findall(item):
+            a = re.findall(r"https:\/\/linuxdesktopcloud\.mail\.ru.*deb", item)
+            lst_deb.append(a)
+        else:
+            b = re.findall(r"https:\/\/linuxdesktopcloud\.mail\.ru.*rpm", item)
+            lst_rpm.append(b)
+        #if link_pattern.findall(item):
+            #lst_in_pattern.append(item)
+    return [lst_deb, lst_rpm]
+
 def main():
     txt = parse(get_html(base_url))
     link_lst = re_parse(txt)
     headers_lst = get_headers_link(link_lst)
-    for i in headers_lst:
-        print i
+    hdrs = last_pars_headers(headers_lst)
+    first_lst = hdrs[:1]  #list deb packege
+    second_lst = hdrs[-1:]   #list rpm packege
+
+    #extract nested DEB list
+    lst_for_deb = []
+    for f in first_lst:
+        for u in range(len(f)):
+            for m in range(len(f[u])):
+                lst_for_deb.append(f[u][m])
+    deb_uniq = set(lst_for_deb)
+
+    #write data in file
+    for line1 in deb_uniq:
+        my_deb_file = open("deb.txt", "a")
+        my_deb_file.write(line1 + "\n")
+        my_deb_file.close()
+
+
+    #extract nested RPM list
+    lst_for_rpm = []
+    for i in second_lst:
+        new_second_lst = i[0:-2]
+        for iter_lst in range(len(new_second_lst)):
+            for j in range(len(new_second_lst[iter_lst])):
+                lst_for_rpm.append(new_second_lst[iter_lst][j])
+    rpm_uniq = set(lst_for_rpm)
+    #write data in file
+    for line2 in rpm_uniq:
+        rpm_file = open("rpm.txt", "a")
+        rpm_file.write(line2 + "\n")
+        rpm_file.close()
 
 
 if __name__ == '__main__':
