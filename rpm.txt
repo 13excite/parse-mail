@@ -1,6 +1,0 @@
-https://linuxdesktopcloud.mail.ru/rpm/openSUSE/default/mail.ru-cloud-opensuse-15.06-0112.x86_64.rpm
-https://linuxdesktopcloud.mail.ru/rpm/Fedora/default/mail.ru-cloud-fedora-15.06-0112.x86_64.rpm
-https://linuxdesktopcloud.mail.ru/rpm/default/mail.ru-cloud-fedora-15.06-0112.x86_64.rpm
-https://linuxdesktopcloud.mail.ru/rpm/default/mail.ru-cloud-fedora-15.06-0112.i386.rpm
-https://linuxdesktopcloud.mail.ru/rpm/openSUSE/default/mail.ru-cloud-opensuse-15.06-0112.i386.rpm
-https://linuxdesktopcloud.mail.ru/rpm/Fedora/default/mail.ru-cloud-fedora-15.06-0112.i386.rpm
