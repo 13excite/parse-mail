@@ -1,5 +1,0 @@
-https://linuxdesktopcloud.mail.ru/deb/mail.ru-cloud_15.06.0110-appind_amd64.deb   #dep gnome
-https://linuxdesktopcloud.mail.ru/deb/mail.ru-cloud_15.06.0107-appind_i386.deb   #ubuntu 14 unity
-https://linuxdesktopcloud.mail.ru/deb/mail.ru-cloud_15.06.0110_amd64.deb
-https://linuxdesktopcloud.mail.ru/deb/mail.ru-cloud_15.06.0110-appind_i386.deb   #linux min 17
-https://linuxdesktopcloud.mail.ru/deb/mail.ru-cloud_15.06.0110_i386.deb
