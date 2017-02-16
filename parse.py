@@ -61,6 +61,19 @@ def last_pars_headers(lst):
             #lst_in_pattern.append(item)
     return [lst_deb, lst_rpm]
 
+def extarct_nestetd_list(list, isRpm):
+    empty_list = []
+    for i in list:
+        if isRpm:
+            list = list[0:-2]
+        for iter_lst in range(len(list)):
+            for j in range(len(list[iter_lst])):
+                empty_list.append(list[iter_lst][j])
+    return set(empty_list)
+
+
+
+
 def main():
     txt = parse(get_html(base_url))
     link_lst = re_parse(txt)
@@ -69,13 +82,12 @@ def main():
     first_lst = hdrs[:1]  #list deb packege
     second_lst = hdrs[-1:]   #list rpm packege
 
-    #extract nested DEB list
-    lst_for_deb = []
-    for f in first_lst:
-        for u in range(len(f)):
-            for m in range(len(f[u])):
-                lst_for_deb.append(f[u][m])
-    deb_uniq = set(lst_for_deb)
+    is_rpm = True
+    is_deb = False
+
+    deb_uniq = extarct_nestetd_list(first_lst, is_deb)
+    rpm_uniq = extarct_nestetd_list(second_lst, is_rpm)
+
 
     #write data in file
     for line1 in deb_uniq:
@@ -84,14 +96,6 @@ def main():
         my_deb_file.close()
 
 
-    #extract nested RPM list
-    lst_for_rpm = []
-    for i in second_lst:
-        new_second_lst = i[0:-2]
-        for iter_lst in range(len(new_second_lst)):
-            for j in range(len(new_second_lst[iter_lst])):
-                lst_for_rpm.append(new_second_lst[iter_lst][j])
-    rpm_uniq = set(lst_for_rpm)
     #write data in file
     for line2 in rpm_uniq:
         rpm_file = open("rpm.txt", "a")
