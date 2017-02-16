@@ -61,15 +61,33 @@ def last_pars_headers(lst):
             #lst_in_pattern.append(item)
     return [lst_deb, lst_rpm]
 
-def extarct_nestetd_list(list, isRpm):
+# Extract nested list, if isRpm == True, then change rpm pkg list
+def extarct_nested_list(list, isRpm):
     empty_list = []
     for i in list:
         if isRpm:
-            list = list[0:-2]
-        for iter_lst in range(len(list)):
-            for j in range(len(list[iter_lst])):
-                empty_list.append(list[iter_lst][j])
-    return set(empty_list)
+            # loop for rpm pkg, nedd strip last 2 elements
+            new_list = i[0:-2]
+            for iter_lst in range(len(new_list)):
+                for j in range(len(new_list[iter_lst])):
+                    empty_list.append(new_list[iter_lst][j])
+
+        #loop for dep pkg
+        for iter_lst in range(len(i)):
+            for j in range(len(i[iter_lst])):
+                empty_list.append(i[iter_lst][j])
+    completed_list = set(empty_list)
+    return completed_list
+
+def write_data_to_file(list, isRpm):
+    for lines in list:
+        if isRpm:
+            my_file = open("rpm.txt", "a")
+        else:
+            my_file = open("deb.txt", "a")
+        my_file.write(lines + "\n")
+        my_file.close()
+
 
 
 
@@ -85,22 +103,12 @@ def main():
     is_rpm = True
     is_deb = False
 
-    deb_uniq = extarct_nestetd_list(first_lst, is_deb)
-    rpm_uniq = extarct_nestetd_list(second_lst, is_rpm)
+    deb_uniq = extarct_nested_list(first_lst, is_deb)
+    rpm_uniq = extarct_nested_list(second_lst, is_rpm)
 
+    write_data_to_file(deb_uniq, is_deb)
+    write_data_to_file(rpm_uniq, is_rpm)
 
-    #write data in file
-    for line1 in deb_uniq:
-        my_deb_file = open("deb.txt", "a")
-        my_deb_file.write(line1 + "\n")
-        my_deb_file.close()
-
-
-    #write data in file
-    for line2 in rpm_uniq:
-        rpm_file = open("rpm.txt", "a")
-        rpm_file.write(line2 + "\n")
-        rpm_file.close()
 
 
 if __name__ == '__main__':
